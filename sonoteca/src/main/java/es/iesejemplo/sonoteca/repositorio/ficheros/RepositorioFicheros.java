@@ -4,7 +4,7 @@ import es.iesejemplo.sonoteca.modelo.*;
 import es.iesejemplo.sonoteca.repositorio.RepositorioSonoTeca;
 
 import java.io.File;
-import java.util.List;
+import java.util.*;
 
 /**
  * UNIDAD 2 — Persistencia en ficheros.
@@ -21,6 +21,8 @@ public class RepositorioFicheros implements RepositorioSonoTeca {
 
     private final String rutaFicheroBiblioteca;
     private Biblioteca biblioteca;
+    private final List<ListaReproduccion> listas = new ArrayList<>();
+    private final Map<Integer, List<Integer>> cancionesPorLista = new HashMap<>();
 
     /**
      * @param rutaFicheroBiblioteca ruta del fichero binario donde se guarda la biblioteca
@@ -81,32 +83,105 @@ public class RepositorioFicheros implements RepositorioSonoTeca {
 
     @Override
     public List<Genero> listarGeneros() {
-        // TODO: implementar (unidad 2, ejercicio 0).
-        throw new UnsupportedOperationException("Funcionalidad no implementada (unidad 2, ejercicio 0)");
+        return this.biblioteca.getGeneros();
     }
 
     @Override
     public List<Artista> listarArtistas() {
-        // TODO: implementar (unidad 2, ejercicio 0).
-        throw new UnsupportedOperationException("Funcionalidad no implementada (unidad 2, ejercicio 0)");
+       return this.biblioteca.getArtistas();
     }
 
     @Override
     public List<Album> listarAlbumes() {
-        // TODO: implementar (unidad 2, ejercicio 0).
-        throw new UnsupportedOperationException("Funcionalidad no implementada (unidad 2, ejercicio 0)");
+        return this.biblioteca.getAlbumes();
     }
 
     @Override
     public List<Cancion> listarCanciones() {
-        // TODO: implementar (unidad 2, ejercicio 0).
-        throw new UnsupportedOperationException("Funcionalidad no implementada (unidad 2, ejercicio 0)");
+        return this.biblioteca.getCanciones();
     }
 
     @Override
     public List<Cancion> buscarCanciones(String texto) {
-        // TODO: implementar (unidad 2, ejercicio 0).
-        throw new UnsupportedOperationException("Funcionalidad no implementada (unidad 2, ejercicio 0)");
+        List<Cancion> canciones = listarCanciones();
+        List<Cancion> cancionesFiltradas=canciones.stream().filter(
+                c-> c.getTitulo().toLowerCase().contains(texto.toLowerCase())).toList();
+        return cancionesFiltradas;
+    }
+
+    //1.er patron: siguiente id disponible
+    private int siguienteIdDisponibleCancion(List<Cancion> canciones) {
+        return canciones.stream().mapToInt(Cancion::getId).max().orElse(0)+1;
+    }
+    private int siguienteIdDisponibleArtista(List<Artista> artistas) {
+        return artistas.stream().mapToInt(Artista::getId).max().orElse(0)+1;
+    }
+    private int siguienteIdDisponibleGenero(List<Genero> generos) {
+        return generos.stream().mapToInt(Genero::getId).max().orElse(0)+1;
+    }
+
+
+
+    //2.o patron: Obtener o crear
+    private Artista obtenerCrearArtista(String nombre, String nacionalidad)
+    {
+        Artista artistaEncontrado = null;
+        for(Artista a: biblioteca.getArtistas())
+        {
+            if (a.getNombre().equalsIgnoreCase(nombre))
+            {
+                artistaEncontrado =a;
+            }
+        }
+
+        if(artistaEncontrado == null)
+        {
+            int nuevoId=siguienteIdDisponibleArtista(biblioteca.getArtistas());
+            artistaEncontrado=new Artista(nuevoId,nombre,nacionalidad);
+            biblioteca.getArtistas().add(artistaEncontrado);
+        }
+
+        return artistaEncontrado;
+    }
+
+    private Genero obtenerCrearGenero(String nombre)
+    {
+        Genero generoEncontrado = null;
+        for(Genero g: biblioteca.getGeneros())
+        {
+            if (g.getNombre().equalsIgnoreCase(nombre))
+            {
+                generoEncontrado =g;
+            }
+        }
+
+        if(generoEncontrado == null)
+        {
+            int nuevoId=siguienteIdDisponibleGenero(biblioteca.getGeneros());
+            generoEncontrado=new Genero(nuevoId, nombre);
+            biblioteca.getGeneros().add(generoEncontrado);
+        }
+
+        return generoEncontrado;
+    }
+
+    private Album obtenerCrearAlbum(String titulo, int anio, Artista artista, Genero genero)
+    {
+        Album albumEncontrado = null;
+        for (Album a: biblioteca.getAlbumes())
+        {
+            if (a.getTitulo().equalsIgnoreCase(titulo))
+                {
+                    albumEncontrado =a;
+                }
+        }
+
+        if (albumEncontrado == null)
+        {
+            albumEncontrado=new Album(titulo,anio,artista,genero);
+            biblioteca.getAlbumes().add(albumEncontrado);
+        }
+        return albumEncontrado;
     }
 
     @Override
