@@ -119,8 +119,9 @@ public class RepositorioFicheros implements RepositorioSonoTeca {
     private int siguienteIdDisponibleGenero(List<Genero> generos) {
         return generos.stream().mapToInt(Genero::getId).max().orElse(0)+1;
     }
-
-
+    private int siguienteIdDisponibleListas(List<ListaReproduccion> listasRepro) {
+        return listasRepro.stream().mapToInt(ListaReproduccion::getId).max().orElse(0)+1;
+    }
 
     //2.o patron: Obtener o crear
     private Artista obtenerCrearArtista(String nombre, String nacionalidad)
@@ -184,45 +185,87 @@ public class RepositorioFicheros implements RepositorioSonoTeca {
         return albumEncontrado;
     }
 
+
     @Override
     public void altaCancion(Cancion cancion) {
-        // TODO: implementar (unidad 2, ejercicio 0).
-        throw new UnsupportedOperationException("Funcionalidad no implementada (unidad 2, ejercicio 0)");
+        Genero genero= obtenerCrearGenero(cancion.getAlbum().getGenero().getNombre());
+        Artista artista= obtenerCrearArtista(cancion.getAlbum().getArtista().getNombre(),
+                cancion.getAlbum().getArtista().getNacionalidad());
+        Album album=obtenerCrearAlbum(cancion.getAlbum().getTitulo(),cancion.getAlbum().getAnio(),artista,genero);
+
+        cancion.setAlbum(album);
+        cancion.setId(siguienteIdDisponibleCancion(biblioteca.getCanciones()));
+
+        biblioteca.getCanciones().add(cancion);
     }
 
     @Override
     public void actualizarCancion(Cancion cancion) {
-        // TODO: implementar (unidad 2, ejercicio 0).
-        throw new UnsupportedOperationException("Funcionalidad no implementada (unidad 2, ejercicio 0)");
+        for (int i = 0; i < biblioteca.getCanciones().size(); i++) {
+            Cancion c = biblioteca.getCanciones().get(i);
+            if (cancion.getId() == c.getId()) {
+                biblioteca.getCanciones().set(i, cancion);
+            }
+        }
     }
 
     @Override
     public void eliminarCancion(int idCancion) {
-        // TODO: implementar (unidad 2, ejercicio 0).
-        throw new UnsupportedOperationException("Funcionalidad no implementada (unidad 2, ejercicio 0)");
+        Cancion cancionAEliminar=
+                biblioteca.getCanciones()
+                        .stream()
+                        .filter(c -> c.getId() == idCancion)
+                        .findFirst()
+                        .orElse(null);
+        if (cancionAEliminar != null) {
+            biblioteca.getCanciones().remove(cancionAEliminar);
+        }
     }
 
     @Override
     public List<ListaReproduccion> listarListas() {
-        // TODO: implementar (unidad 2, ejercicio 0).
-        throw new UnsupportedOperationException("Funcionalidad no implementada (unidad 2, ejercicio 0)");
+        return biblioteca.getListasReproduccion();
     }
 
     @Override
     public void altaLista(ListaReproduccion lista) {
-        // TODO: implementar (unidad 2, ejercicio 0).
-        throw new UnsupportedOperationException("Funcionalidad no implementada (unidad 2, ejercicio 0)");
+        lista.setId(siguienteIdDisponibleListas(biblioteca.getListasReproduccion()));
+        biblioteca.getListasReproduccion().add(lista);
     }
 
     @Override
     public void anyadirCancionALista(int idLista, int idCancion, int posicion) {
-        // TODO: implementar (unidad 2, ejercicio 0).
-        throw new UnsupportedOperationException("Funcionalidad no implementada (unidad 2, ejercicio 0)");
+        int indiceInsercion=posicion-1;
+
+        ListaReproduccion lista=biblioteca.getListasReproduccion()
+                .stream()
+                .filter(l->l.getId()==idLista)
+                .findFirst()
+                .orElse(null);
+        Cancion cancion=biblioteca.getCanciones().
+                stream()
+                .filter(c->c.getId()==idCancion)
+                .findFirst()
+                .orElse(null);
+
+        if (cancion!=null && lista!=null && indiceInsercion<=lista.getCanciones().size() && indiceInsercion>=0)
+        {
+            lista.getCanciones().add(indiceInsercion,cancion);
+        }
     }
 
     @Override
     public List<Cancion> cancionesDeLista(int idLista) {
-        // TODO: implementar (unidad 2, ejercicio 0).
-        throw new UnsupportedOperationException("Funcionalidad no implementada (unidad 2, ejercicio 0)");
+        List<Cancion> cancionesLista=new ArrayList<>();
+        ListaReproduccion lista= biblioteca.getListasReproduccion().stream()
+                .filter(l->l.getId()==idLista)
+                .findFirst()
+                .orElse(null);
+
+        if (lista!=null)
+        {
+            cancionesLista=lista.getCanciones();
+        }
+        return cancionesLista;
     }
 }
