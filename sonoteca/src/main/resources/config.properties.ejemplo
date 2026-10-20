@@ -1,0 +1,3 @@
+bd.url=jdbc:postgresql://localhost:5432/sonoteca
+bd.usuario=sonoteca
+bd.password=123

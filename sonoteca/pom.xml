@@ -25,18 +25,20 @@
         </dependency>
 
         <!-- Unidad 3: JDBC. Descomenta el driver de tu gestor -->
+        <!--
         <dependency>
             <groupId>org.mariadb.jdbc</groupId>
             <artifactId>mariadb-java-client</artifactId>
             <version>3.3.2</version>
         </dependency>
-        <!--
+        -->
+
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <version>42.7.3</version>
         </dependency>
-        -->
+
 
         <!-- Unidad 4: Hibernate -->
         <dependency>
