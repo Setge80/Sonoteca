@@ -1,0 +1,155 @@
+{
+  "generos": [
+    {
+      "id": 1,
+      "nombre": "Pop"
+    },
+    {
+      "id": 2,
+      "nombre": "Rock"
+    }
+  ],
+  "artistas": [
+    {
+      "id": 1,
+      "nombre": "ABBA"
+    },
+    {
+      "id": 2,
+      "nombre": "Queen"
+    }
+  ],
+  "albumes": [
+    {
+      "id": 0,
+      "titulo": "Arrival",
+      "anio": 1976,
+      "artista": {
+        "id": 1,
+        "nombre": "ABBA"
+      },
+      "genero": {
+        "id": 1,
+        "nombre": "Pop"
+      }
+    },
+    {
+      "id": 0,
+      "titulo": "Waterloo",
+      "anio": 1974,
+      "artista": {
+        "id": 1,
+        "nombre": "ABBA"
+      },
+      "genero": {
+        "id": 1,
+        "nombre": "Pop"
+      }
+    },
+    {
+      "id": 0,
+      "titulo": "A Night at the Opera",
+      "anio": 1975,
+      "artista": {
+        "id": 2,
+        "nombre": "Queen"
+      },
+      "genero": {
+        "id": 2,
+        "nombre": "Rock"
+      }
+    },
+    {
+      "id": 0,
+      "titulo": "The Works",
+      "anio": 1984,
+      "artista": {
+        "id": 2,
+        "nombre": "Queen"
+      },
+      "genero": {
+        "id": 2,
+        "nombre": "Rock"
+      }
+    }
+  ],
+  "canciones": [
+    {
+      "id": 1,
+      "titulo": "Dancing Queen",
+      "duracionSegundos": 0,
+      "numeroPista": 1,
+      "album": {
+        "id": 0,
+        "titulo": "Arrival",
+        "anio": 1976,
+        "artista": {
+          "id": 1,
+          "nombre": "ABBA"
+        },
+        "genero": {
+          "id": 1,
+          "nombre": "Pop"
+        }
+      }
+    },
+    {
+      "id": 2,
+      "titulo": "Waterloo",
+      "duracionSegundos": 0,
+      "numeroPista": 1,
+      "album": {
+        "id": 0,
+        "titulo": "Waterloo",
+        "anio": 1974,
+        "artista": {
+          "id": 1,
+          "nombre": "ABBA"
+        },
+        "genero": {
+          "id": 1,
+          "nombre": "Pop"
+        }
+      }
+    },
+    {
+      "id": 3,
+      "titulo": "Bohemian Rhapsody",
+      "duracionSegundos": 0,
+      "numeroPista": 1,
+      "album": {
+        "id": 0,
+        "titulo": "A Night at the Opera",
+        "anio": 1975,
+        "artista": {
+          "id": 2,
+          "nombre": "Queen"
+        },
+        "genero": {
+          "id": 2,
+          "nombre": "Rock"
+        }
+      }
+    },
+    {
+      "id": 4,
+      "titulo": "Radio Ga Ga",
+      "duracionSegundos": 0,
+      "numeroPista": 1,
+      "album": {
+        "id": 0,
+        "titulo": "The Works",
+        "anio": 1984,
+        "artista": {
+          "id": 2,
+          "nombre": "Queen"
+        },
+        "genero": {
+          "id": 2,
+          "nombre": "Rock"
+        }
+      }
+    }
+  ],
+  "listasReproduccion": []
+}

@@ -143,7 +143,7 @@ public class RepositorioFicheros implements RepositorioSonoTeca {
         }
     }
 
-    //Auxiliar
+    //Auxiliar lectura cabecera
     private static String campo(byte[] bloque, int desde, int longitud) {
         String resultado=new String(bloque, desde,longitud, StandardCharsets.ISO_8859_1 );
         int primerCero=resultado.indexOf("\0");
